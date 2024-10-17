@@ -1,7 +1,7 @@
 {
   "name": "team.e-s.unity.addins.custom-visualizer",
   "version": "1.0.0",
-  "displayName": "Unity Custom Inspector for Primitive Components",
+  "displayName": "Unity Editor Visualizers",
   "description": "Provides useful editor's scene view visualizing Collider(s) etc.",
   "unity": "2023.2",
   "keywords": [
