@@ -78,12 +78,12 @@ namespace Es.Unity.Addins.CustomInspectors
             foreach(var collider in GameObject.FindObjectsByType<UnityEngine.Collider>(FindObjectsSortMode.None)) {
                 var transform = collider.transform;
                 if(collider is BoxCollider boxCollider) {
-                    var c = transform.TransformVector(boxCollider.center) + transform.position;
+                    UnityEngine.Gizmos.matrix = transform.localToWorldMatrix;
                     if(this.Mode.HasFlag(ColliderGizmosMode.Wire)) {
-                        UnityEngine.Gizmos.DrawWireCube(c, boxCollider.size);
+                        UnityEngine.Gizmos.DrawWireCube(boxCollider.center, boxCollider.size);
                     }
                     if(this.Mode.HasFlag(ColliderGizmosMode.Solid)) {
-                        UnityEngine.Gizmos.DrawCube(c, boxCollider.size);
+                        UnityEngine.Gizmos.DrawCube(boxCollider.center, boxCollider.size);
                     }
                 }
                 else if(collider is SphereCollider sphereCollider) {
@@ -154,7 +154,10 @@ namespace Es.Unity.Addins.CustomInspectors
             if(_color != default) UnityEditor.Handles.color = _color;
 
             var forward = _pos2 - _pos;
-            var _rot = Quaternion.LookRotation(forward);
+            var _rot = Quaternion.identity;
+            if(forward.magnitude > 0) {
+                _rot = Quaternion.LookRotation(forward);
+            }
             var pointOffset = _radius/2f;
             var length = forward.magnitude;
             var center2 = new Vector3(0f,0,length);
